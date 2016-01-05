@@ -1,7 +1,7 @@
 require 'socket'
 require 'pry'
 
-​class HTTP_Server
+class HTTP_Server
   attr_reader :server, :request_count
 
   def initialize
@@ -21,9 +21,9 @@ require 'pry'
       client.close
     end
   end
-​
+
   def response(client)
-    response = "<pre>" + "Hello, World! (#{@request_count})" + "</pre>"
+    response = "<pre>" + "Hello, World! (#{@request_count})"
     output = "<html><head></head><body>#{response}</body></html>"
     headers = ["http/1.1 200 ok",
               "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
@@ -34,11 +34,11 @@ require 'pry'
     client.puts output
     @request_count += 1
   end
-​
+
   def close
     client.close
   end
 end
-​
+
 tcp_server = HTTP_Server.new
 tcp_server.request
