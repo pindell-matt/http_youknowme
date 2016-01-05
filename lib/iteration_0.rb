@@ -19,9 +19,7 @@ class HTTP_Server
       end
 ​
       response(client)
-​
       break if @request_count == 10
-​
       client.close
     end
   end
