@@ -1,0 +1,62 @@
+require 'socket'
+require 'pry'
+
+class HTTP_Server
+  attr_reader :server, :request_count
+
+  def initialize
+    @server = TCPServer.new(9295)
+    @request_count = 0
+  end
+
+  def request
+    loop do
+      # user_input = gets.chomp
+
+      client = @server.accept
+
+      request_lines = []
+      while line = client.gets and !line.chomp.empty?
+        request_lines << line.chomp
+      end
+
+      response(client)
+
+      break if @request_count == 5
+      # break if user_input == "/shutdown"
+
+      client.close
+    end
+  end
+
+  def response(client)
+    response = "<pre>" + "Hello, World! (#{@request_count})" + "</pre>"
+    output = "<html><head></head><body>#{response}</body></html>"
+    headers = ["http/1.1 200 ok",
+              "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
+              "server: ruby",
+              "content-type: text/html; charset=iso-8859-1",
+              "content-length: #{output.length}\r\n\r\n"].join("\r\n")
+    client.puts headers
+    client.puts output
+    @request_count += 1
+  end
+
+  # <pre>
+  # Verb: POST
+  # Path: /
+  # Protocol: HTTP/1.1
+  # Host: 127.0.0.1
+  # Port: 9292
+  # Origin: 127.0.0.1
+  # Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+  # </pre>
+
+  def close
+    client.close
+  end
+
+end
+
+tcp_server = HTTP_Server.new
+tcp_server.request
