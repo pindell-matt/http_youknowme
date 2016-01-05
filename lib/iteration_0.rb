@@ -5,14 +5,12 @@ class HTTP_Server
   attr_reader :server, :request_count
 
   def initialize
-    @server = TCPServer.new(9295)
+    @server = TCPServer.new(9292)
     @request_count = 0
   end
 
   def request
     loop do
-      # user_input = gets.chomp
-
       client = @server.accept
 
       request_lines = []
@@ -22,8 +20,7 @@ class HTTP_Server
 
       response(client)
 
-      break if @request_count == 5
-      # break if user_input == "/shutdown"
+      break if @request_count == 10
 
       client.close
     end
