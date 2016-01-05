@@ -1,34 +1,31 @@
 require 'socket'
 require 'pry'
-
+​
 class HTTP_Server
   attr_reader :server, :request_count
-
+​
   def initialize
     @server = TCPServer.new(9292)
     @request_count = 0
   end
-
+​
   def request
     loop do
-      # user_input = gets.chomp
-
       client = @server.accept
-
+​
       request_lines = []
       while line = client.gets and !line.chomp.empty?
         request_lines << line.chomp
       end
-
+​
       response(client)
-
-      break if @request_count == 5
-      # break if user_input == "/shutdown"
-
+​
+      break if @request_count == 10
+​
       client.close
     end
   end
-
+​
   def response(client)
     response = "<pre>" + "Hello, World! (#{@request_count})" + "</pre>"
     output = "<html><head></head><body>#{response}</body></html>"
@@ -41,13 +38,12 @@ class HTTP_Server
     client.puts output
     @request_count += 1
   end
-
+​
   def close
     client.close
   end
-  
-
+​
 end
-
+​
 tcp_server = HTTP_Server.new
 tcp_server.request
