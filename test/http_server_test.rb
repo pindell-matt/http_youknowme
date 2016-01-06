@@ -14,15 +14,19 @@ class HTTP_Server_Test < Minitest::Test
     assert response.success?
   end
 
-  # def test_response_body
-  #   response = Hurley.get("http://127.0.0.1:9292")
-  #   expected = "<html><head></head><body><pre>Hello, World! (1)</body></html>"
-  #   assert_equal expected, response.body
-  # end
+  def test_scheme
+    client = Hurley::Client.new("http://127.0.0.1:9292")
+    assert_equal "http", client.scheme
+  end
 
-  def test_response_body
-    response = Hurley.get("http://127.0.0.1:9292")
-    binding.pry
+  def test_host
+    client = Hurley::Client.new("http://127.0.0.1:9292")
+    assert_equal "127.0.0.1", client.host
+  end
+
+  def test_port
+    client = Hurley::Client.new("http://127.0.0.1:9292")
+    assert_equal 9292, client.port
   end
 
 end
