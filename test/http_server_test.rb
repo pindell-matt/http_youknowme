@@ -6,7 +6,7 @@ require 'minitest/pride'
 require 'hurley'
 require 'socket'
 require 'pry'
-require_relative '../lib/iteration_0'
+require_relative '../lib/iter_0'
 
 class HTTP_Server_Test < Minitest::Test
   attr_reader :client
