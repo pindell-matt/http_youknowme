@@ -9,14 +9,23 @@ class HTTP_Response_Test < Minitest::Test
 
   def test_response_body
     response = Hurley.get("http://127.0.0.1:9292")
-    expected = "<html><head></head><body><pre>Hello, World!"
-    assert_equal expected, response.body[0..42]
+    expected = "Hello, World!"
+    assert response.body.include?(expected)
   end
 
-  def test_response_status_code
+  def test_response_200_status_code
     response = Hurley.get("http://127.0.0.1:9292")
     expected = 200
     assert_equal expected, response.status_code
   end
+
+  # test diagnostics
+  def test_diagnostics_verb
+    response = Hurley.get("http://127.0.0.1:9292")
+    binding.pry
+    assert_equal expected, response.status_code
+  end
+
+  # test iteration 2 -> implement
 
 end
