@@ -22,8 +22,17 @@ class HTTP_Response_Test < Minitest::Test
   # test diagnostics
   def test_diagnostics_verb
     response = Hurley.get("http://127.0.0.1:9292")
+    expected = :get
+    diagnostic_verb = response.request[0]
+    assert_equal expected, diagnostic_verb
+  end
+
+  def test_diagnostic_verb
+    response = Hurley.get("http://127.0.0.1:9292")
+    expected = :get
     binding.pry
-    assert_equal expected, response.status_code
+    diagnostic_verb = response.request[0]
+    assert_equal expected, diagnostic_verb
   end
 
   # test iteration 2 -> implement
