@@ -3,7 +3,7 @@ require 'minitest/pride'
 require 'socket'
 require 'hurley'
 require 'pry'
-# git push fix
+
 class HTTP_Response_Test < Minitest::Test
   attr_reader :client
 
