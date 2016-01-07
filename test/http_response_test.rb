@@ -20,19 +20,49 @@ class HTTP_Response_Test < Minitest::Test
   end
 
   # test diagnostics
-  def test_diagnostics_verb
-    response = Hurley.get("http://127.0.0.1:9292")
-    expected = :get
-    diagnostic_verb = response.request[0]
-    assert_equal expected, diagnostic_verb
-  end
-
   def test_diagnostic_verb
     response = Hurley.get("http://127.0.0.1:9292")
-    expected = :get
-    binding.pry
-    diagnostic_verb = response.request[0]
-    assert_equal expected, diagnostic_verb
+    expected = "GET"
+    assert_equal expected, response.body.split("\n")[2].split[1]
+  end
+
+  def test_diagnostic_path
+    response = Hurley.get("http://127.0.0.1:9292")
+    expected = "/"
+    assert_equal expected, response.body.split("\n")[3].split[1]
+  end
+
+  def test_diagnostic_protocol
+    response = Hurley.get("http://127.0.0.1:9292")
+    expected = "HTTP/1.1"
+    assert_equal expected, response.body.split("\n")[4].split[1]
+  end
+
+  def test_diagnostic_host
+    response = Hurley.get("http://127.0.0.1:9292")
+    expected = "Hurley"
+    assert_equal expected, response.body.split("\n")[5].split[1]
+  end
+
+  def test_diagnostic_port
+    skip
+    response = Hurley.get("http://127.0.0.1:9292")
+    expected = "9292"
+    assert_equals expected, response.body[0]
+  end
+
+  def test_diagnostic_origin
+    skip
+    response = Hurley.get("http://127.0.0.1:9292")
+    expected = "GET"
+    assert response.body.include?(expected)
+  end
+
+  def test_diagnostic_accept
+    skip
+    response = Hurley.get("http://127.0.0.1:9292")
+    expected = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+    assert response.body.include?(expected)
   end
 
   # test iteration 2 -> implement
