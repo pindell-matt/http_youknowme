@@ -7,7 +7,9 @@ require 'pry'
 class HTTP_Response_Test < Minitest::Test
   attr_reader :client
 
-  def test_response_body
+  def test_hello_world
+    # client = Hurley::Client.new("http://127.0.0.1:9292")
+    # response = client.get("/hello")
     response = Hurley.get("http://127.0.0.1:9292")
     expected = "Hello, World!"
     assert response.body.include?(expected)
@@ -48,23 +50,21 @@ class HTTP_Response_Test < Minitest::Test
     skip
     response = Hurley.get("http://127.0.0.1:9292")
     expected = "9292"
-    assert_equals expected, response.body[0]
+    binding.pry
+    assert_equal expected, response.body.split("\n")[6].split[1]
   end
 
   def test_diagnostic_origin
-    skip
     response = Hurley.get("http://127.0.0.1:9292")
-    expected = "GET"
-    assert response.body.include?(expected)
+    expected = "Hurley"
+    assert_equal expected, response.body.split("\n")[7].split[1]
   end
 
   def test_diagnostic_accept
     skip
     response = Hurley.get("http://127.0.0.1:9292")
     expected = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
-    assert response.body.include?(expected)
+    assert_equal expected, response.body.split("\n")[8].split[1]
   end
-
-  # test iteration 2 -> implement
 
 end
