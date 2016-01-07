@@ -1,9 +1,9 @@
-# $LOAD_PATH.unshift(File.expand_path(".", __dir__))
+$LOAD_PATH.unshift(File.expand_path(".", __dir__))
 require 'socket'
 require 'pry'
 require 'time'
-require_relative 'parser'
-require_relative 'request_parse'
+require 'parser'
+require 'request_parse'
 
 class HTTP_Response
 
