@@ -1,3 +1,4 @@
+# $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'socket'
 require 'pry'
 require_relative 'http_request'
@@ -16,5 +17,7 @@ class HTTP_Server
 
 end
 
+if __FILE__ == $0
 tcp_server = HTTP_Server.new
 tcp_server.request
+end

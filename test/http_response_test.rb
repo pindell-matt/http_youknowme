@@ -2,6 +2,7 @@ require 'minitest/autorun'
 require 'minitest/pride'
 require 'socket'
 require 'hurley'
+require 'time'
 require 'pry'
 
 class HTTP_Response_Test < Minitest::Test
@@ -13,7 +14,12 @@ class HTTP_Response_Test < Minitest::Test
     assert response.body.include?(expected)
   end
 
-  # replicate hello_world structure for other paths
+  def test_date_time
+    response = Hurley.get("http://127.0.0.1:9292/datetime")
+    now = Time.new
+    expected = now.strftime("%I:%M%p on %A, %B %d, %Y")
+    assert response.body.include?(expected)
+  end
 
   def test_response_200_status_code
     response = Hurley.get("http://127.0.0.1:9292")
@@ -21,7 +27,6 @@ class HTTP_Response_Test < Minitest::Test
     assert_equal expected, response.status_code
   end
 
-  # test diagnostics
   def test_diagnostic_verb
     response = Hurley.get("http://127.0.0.1:9292")
     expected = "GET"
