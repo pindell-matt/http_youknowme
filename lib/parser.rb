@@ -10,7 +10,9 @@ class Parser
   end
 
   # Create CASE version
-  def parse(path, request_count)
+  # not really parsing, it's more pure path evaluation / client request
+  # move back to response (or it's own) and initialize hello_count there
+  def path_eval(path, request_count)
     if path == "/hello"
       "Hello, World! (#{request_count})"
     elsif path == "/datetime"

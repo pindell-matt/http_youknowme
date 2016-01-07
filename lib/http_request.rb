@@ -12,12 +12,13 @@ class HTTP_Request
   def request(server)
     loop do
       client = server.accept
+      #maybe own method?
       request_lines = []
       while line = client.gets and !line.chomp.empty?
         request_lines << line.chomp
       end
 
-      # this is the text!
+      # this is the path text!
       path = request_lines[0].split[1]
       puts path
       # this is the text!
