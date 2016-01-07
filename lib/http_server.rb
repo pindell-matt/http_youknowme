@@ -1,7 +1,7 @@
-# $LOAD_PATH.unshift(File.dirname(__FILE__))
+$LOAD_PATH.unshift(File.expand_path(".", __dir__))
 require 'socket'
 require 'pry'
-require_relative 'http_request'
+require 'http_request'
 
 class HTTP_Server
   attr_reader :server
@@ -14,7 +14,6 @@ class HTTP_Server
     create_request = HTTP_Request.new
     create_request.request(server)
   end
-
 end
 
 if __FILE__ == $0
