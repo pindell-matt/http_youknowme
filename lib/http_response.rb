@@ -1,5 +1,6 @@
 require 'socket'
 require 'pry'
+require 'time'
 # require_relative 'parser'
 
 class HTTP_Reponse
@@ -16,6 +17,9 @@ class HTTP_Reponse
   def parser(path, request_count)
     if path == "/hello"
       "Hello, World! (#{@hello_requests})"
+    elsif path == "/datetime"
+      now = Time.new
+      now.strftime("%I:%M%p on %A, %B %d, %Y")
     elsif path == "/shutdown"
       "Total Requests: #{request_count}"
     else
