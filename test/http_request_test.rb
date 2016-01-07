@@ -16,7 +16,6 @@ class HTTP_Request_Test < Minitest::Test
 
   def test_something
     client = Hurley::Client.new("http://127.0.0.1:9292")
-    binding.pry
   end
 
 end

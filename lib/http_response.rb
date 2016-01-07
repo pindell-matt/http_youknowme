@@ -9,29 +9,10 @@ class HTTP_Reponse
     @path = path
     # @hello_requests = 0
     @request_count = request_count
-    # client_input = client.gets
-    # parsed_text = Parser.new(client_input)
   end
-
-  # set to be own Class (use cases?)
-  # def parser(path, request_count)
-  #   if path == "/hello"
-  #     "Hello, World! (#{@hello_requests})"
-  #   elsif path == "/datetime"
-  #     now = Time.new
-  #     now.strftime("%I:%M%p on %A, %B %d, %Y")
-  #   elsif path == "/shutdown"
-  #     "Total Requests: #{request_count}"
-  #   else
-  #     "No Path!"
-  #   end
-  # end
-
 
   def respond(client, request_lines, request_count, path)
     parser = Parser.new(path, request_count)
-    # client_input = client.gets
-    # parsed_text = Parser.new(client_input)
     diagnostics = [ "Verb: #{request_lines[0].split[0]}",
                     "Path: #{request_lines[0].split[1]}",
                     "Protocol: #{request_lines[0].split[2]}",

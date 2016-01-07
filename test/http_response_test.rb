@@ -8,9 +8,7 @@ class HTTP_Response_Test < Minitest::Test
   attr_reader :client
 
   def test_hello_world
-    # client = Hurley::Client.new("http://127.0.0.1:9292")
-    # response = client.get("/hello")
-    response = Hurley.get("http://127.0.0.1:9292")
+    response = Hurley.get("http://127.0.0.1:9292/hello")
     expected = "Hello, World!"
     assert response.body.include?(expected)
   end
