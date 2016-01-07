@@ -1,13 +1,32 @@
 require 'socket'
 require 'pry'
+# require_relative 'parser'
 
 class HTTP_Reponse
 
-  def initialize
-
+  def initialize(path, request_count)
+    @path = path
+    @hello_requests = 0
+    @request_count = request_count
+    # client_input = client.gets
+    # parsed_text = Parser.new(client_input)
   end
 
-  def respond(client, request_lines, request_count)
+  # set to be own Class (use cases?)
+  def parser(path, request_count)
+    if path == "/hello"
+      "Hello, World! (#{@hello_requests})"
+    elsif path == "/shutdown"
+      "Total Requests: #{request_count}"
+    else
+      "No Path!"
+    end
+  end
+
+
+  def respond(client, request_lines, request_count, path)
+    # client_input = client.gets
+    # parsed_text = Parser.new(client_input)
     diagnostics = [ "Verb: #{request_lines[0].split[0]}",
                     "Path: #{request_lines[0].split[1]}",
                     "Protocol: #{request_lines[0].split[2]}",
@@ -15,7 +34,8 @@ class HTTP_Reponse
                     "Port: #{request_lines[1].split[1].split(":")[1]}",
                     "Origin: #{request_lines[1].split[1].split(":")[0]}",
                     "Accept: #{request_lines[3].split[1]}"].join("\r\n")
-    response = "<pre>" + "Hello, World! (#{request_count})" + "\n\n" + diagnostics + "<pre>"
+    # response = "<pre>" + "Hello, World! (#{request_count})" + "\n\n" + diagnostics + "<pre>"
+    response = "<pre>" + parser(path, request_count) + "\n\n" + diagnostics + "<pre>"
     output = "<html><head></head><body>#{response}</body></html>"
     headers = ["http/1.1 200 ok",
               "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",

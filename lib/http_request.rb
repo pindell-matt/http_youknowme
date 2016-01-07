@@ -17,12 +17,19 @@ class HTTP_Request
         request_lines << line.chomp
       end
 
-      response = HTTP_Reponse.new
-      @request_count += 1
-      response.respond(client, request_lines, request_count)
+      # this is the text!
+      path = request_lines[0].split[1]
+      puts path
+      # this is the text!
 
+      @request_count += 1
+      response = HTTP_Reponse.new(path, request_count)
+      response.respond(client, request_lines, request_count, path)
+
+      break if path == "/shutdown"
       client.close
     end
   end
+
 
 end
