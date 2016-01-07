@@ -1,7 +1,9 @@
+# $LOAD_PATH.unshift(File.expand_path(".", __dir__))
 require 'socket'
 require 'pry'
 require 'time'
 require_relative 'parser'
+require_relative 'request_parse'
 
 class HTTP_Response
 
@@ -12,15 +14,8 @@ class HTTP_Response
   end
 
   def respond(client, request_lines)
-    #move to parser class
-    diagnostics = [ "Verb: #{request_lines[0].split[0]}",
-                    "Path: #{request_lines[0].split[1]}",
-                    "Protocol: #{request_lines[0].split[2]}",
-                    "Host: #{request_lines[1].split[1].split(":")[0]}",
-                    "Port: #{request_lines[1].split[1].split(":")[1]}",
-                    "Origin: #{request_lines[1].split[1].split(":")[0]}",
-                    "Accept: #{request_lines[3].split[1]}"].join("\r\n")
-    response = "<pre>" + @parser + "\n\n" + diagnostics + "<pre>"
+    diagnostics = Request_Parse.new(request_lines)
+    response = "<pre>" + @parser + "\n\n" + diagnostics.parse_diagnostic + "<pre>"
     output = "<html><head></head><body>#{response}</body></html>"
     # split off to methods?
     headers = ["http/1.1 200 ok",
