@@ -9,7 +9,6 @@ class Parser
     @request_count = request_count
   end
 
-  # Create CASE version
   # not really parsing, it's more pure path evaluation / client request
   # move back to response (or it's own) and initialize hello_count there
   def path_eval(path, request_count)

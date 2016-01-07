@@ -17,13 +17,15 @@ class HTTP_Response
     diagnostics = Request_Parse.new(request_lines)
     response = "<pre>" + @parser + "\n\n" + diagnostics.parse_diagnostic + "<pre>"
     output = "<html><head></head><body>#{response}</body></html>"
-    # split off to methods?
-    headers = ["http/1.1 200 ok",
-              "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
-              "server: ruby",
-              "content-type: text/html; charset=iso-8859-1",
-              "content-length: #{output.length}\r\n\r\n"].join("\r\n")
-    client.puts headers
+    client.puts headers(output)
     client.puts output
+  end
+
+  def headers(output)
+    ["http/1.1 200 ok",
+      "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
+      "server: ruby",
+      "content-type: text/html; charset=iso-8859-1",
+      "content-length: #{output.length}\r\n\r\n"].join("\r\n")
   end
 end
