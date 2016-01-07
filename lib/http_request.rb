@@ -24,7 +24,7 @@ class HTTP_Request
 
       @request_count += 1
       response = HTTP_Reponse.new(path, request_count)
-      response.respond(client, request_lines, request_count, path)
+      response.respond(client, request_lines)
 
       break if path == "/shutdown"
       client.close

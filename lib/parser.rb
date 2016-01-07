@@ -9,6 +9,7 @@ class Parser
     @request_count = request_count
   end
 
+  # Create CASE version
   def parse(path, request_count)
     if path == "/hello"
       "Hello, World! (#{request_count})"
