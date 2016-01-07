@@ -3,7 +3,7 @@ require 'pry'
 require 'time'
 require_relative 'parser'
 
-class HTTP_Reponse
+class HTTP_Response
 
   def initialize(path, request_count)
     @path = path

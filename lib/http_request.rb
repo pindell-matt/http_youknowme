@@ -13,11 +13,11 @@ class HTTP_Request
   def request(server)
     loop do
       client = server.accept
-      lines = req_line_processor(client)
-      path = lines[0].split[1]
+      req_lines = req_line_processor(client)
+      path = req_lines[0].split[1]
       @request_count += 1
-      response = HTTP_Reponse.new(path, request_count)
-      response.respond(client, lines)
+      response = HTTP_Response.new(path, request_count)
+      response.respond(client, req_lines)
       break if path == "/shutdown"
       client.close
     end
