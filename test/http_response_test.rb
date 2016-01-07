@@ -13,6 +13,8 @@ class HTTP_Response_Test < Minitest::Test
     assert response.body.include?(expected)
   end
 
+  # replicate hello_world structure for other paths
+
   def test_response_200_status_code
     response = Hurley.get("http://127.0.0.1:9292")
     expected = 200
@@ -48,7 +50,7 @@ class HTTP_Response_Test < Minitest::Test
     skip
     response = Hurley.get("http://127.0.0.1:9292")
     expected = "9292"
-    binding.pry
+    # binding.pry
     assert_equal expected, response.body.split("\n")[6].split[1]
   end
 
