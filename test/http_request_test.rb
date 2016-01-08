@@ -3,7 +3,6 @@ require 'minitest/pride'
 require 'socket'
 require 'hurley'
 require 'pry'
-require_relative '../lib/http_request'
 
 class HTTP_Request_Test < Minitest::Test
   attr_reader :client
@@ -13,7 +12,6 @@ class HTTP_Request_Test < Minitest::Test
     request = client.get("/hello")
     expected = "GET"
     received = request.inspect.split[1]
-    binding.pry
     assert_equal expected, received
   end
 
