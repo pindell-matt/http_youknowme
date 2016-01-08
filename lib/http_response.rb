@@ -6,16 +6,16 @@ require 'parser'
 require 'request_parse'
 
 class HTTP_Response
+  attr_reader :request_count, :parser
 
   def initialize(path, request_count)
-    @path = path
     @request_count = request_count
-    @parser = Parser.new(path, request_count).path_eval(path, request_count).to_s
+    @parser = Parser.new(path, request_count).path_eval.to_s
   end
 
   def respond(client, request_lines)
     diagnostics = Request_Parse.new(request_lines)
-    response = "<pre>" + @parser + "\n\n" + diagnostics.parse_diagnostic + "<pre>"
+    response = "<pre>" + parser + "\n\n" + diagnostics.parse_diagnostic + "<pre>"
     output = "<html><head></head><body>#{response}</body></html>"
     client.puts headers(output)
     client.puts output

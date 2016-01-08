@@ -3,6 +3,7 @@ require 'pry'
 require 'time'
 
 class Parser
+  attr_reader :path, :request_count
 
   def initialize(path, request_count)
     @path = path
@@ -10,7 +11,7 @@ class Parser
   end
 
   # move back to response (or it's own) and initialize hello_count there
-  def path_eval(path, request_count)
+  def path_eval
     if path == "/hello"
       "Hello, World! (#{request_count})"
     elsif path == "/datetime"
