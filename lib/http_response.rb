@@ -6,7 +6,7 @@ require 'time'
 require 'request_parse'
 
 class HTTP_Response
-  attr_reader :request_count, :path, :collected_paths
+  attr_reader :request_count, :path
 
   def initialize(path, request_count, hello_count)
     @request_count = request_count

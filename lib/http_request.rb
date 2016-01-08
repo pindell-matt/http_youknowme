@@ -19,7 +19,7 @@ class HTTP_Request
       @request_count += 1
       response = HTTP_Response.new(path, request_count, hello_count)
       response.respond(client, request_lines)
-      break if path == "/shutdown"
+      break if contingencies(path)
       if path == "/hello"
         @hello_count += 1
       end
@@ -33,5 +33,9 @@ class HTTP_Request
       request_lines << line.chomp
     end
     request_lines
+  end
+
+  def contingencies(path)
+    path == "/shutdown"
   end
 end
