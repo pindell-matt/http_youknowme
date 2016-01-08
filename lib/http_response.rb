@@ -39,7 +39,7 @@ class HTTP_Response
     elsif path == "/shutdown"
       "Total Requests: #{request_count}"
     else
-      "No Path!"
+      "\n"
     end
   end
 

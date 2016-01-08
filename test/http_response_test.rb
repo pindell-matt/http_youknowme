@@ -14,11 +14,29 @@ class HTTP_Response_Test < Minitest::Test
     assert response.body.include?(expected)
   end
 
+  def test_full_response_hello
+   client = Hurley::Client.new("http://127.0.0.1:9292")
+   response = client.get("/hello")
+   expected = "Path: /hello Protocol: HTTP/1.1 Host: Hurley Port:  Origin: Hurley"
+   received = response.body[50..-33].gsub("\n", "").gsub("\r", " ")
+   assert_equal expected, received
+  end
+
   def test_date_time
     response = Hurley.get("http://127.0.0.1:9292/datetime")
     now = Time.new
     expected = now.strftime("%I:%M%p on %A, %B %d, %Y")
     assert response.body.include?(expected)
+  end
+
+  def test_full_response_datetime
+   client = Hurley::Client.new("http://127.0.0.1:9292")
+   response = client.get("/datetime")
+   now = Time.new
+   time = now.strftime("%I:%M%p on %A, %B %d, %Y")
+   expected = time + "Path: /datetime Protocol: HTTP/1.1 Host: Hurley Port:  Origin: Hurley"
+   received = response.body[30..-33].gsub("\n", "").gsub("\r", " ")
+   assert_equal expected, received
   end
 
   def test_response_200_status_code
@@ -27,49 +45,33 @@ class HTTP_Response_Test < Minitest::Test
     assert_equal expected, response.status_code
   end
 
-  def test_diagnostic_verb
-    response = Hurley.get("http://127.0.0.1:9292")
+  def test_response_verb_no_path
+    client = Hurley::Client.new("http://127.0.0.1:9292")
+    response = client.get("/")
     expected = "GET"
-    assert_equal expected, response.body.split("\n")[2].split[1]
+    assert response.inspect.include?(expected)
   end
 
-  def test_diagnostic_path
-    response = Hurley.get("http://127.0.0.1:9292")
-    expected = "/"
-    assert_equal expected, response.body.split("\n")[3].split[1]
+  def test_full_request_no_path
+   client = Hurley::Client.new("http://127.0.0.1:9292")
+   response = client.get("/")
+   expected = "Path: / Protocol: HTTP/1.1 Host: Hurley Port:  Origin: Hurley"
+   received = response.body[30..-33].gsub("\n", "").gsub("\r", " ")
+   assert_equal expected, received
   end
 
   def test_diagnostic_protocol
     response = Hurley.get("http://127.0.0.1:9292")
     expected = "HTTP/1.1"
-    assert_equal expected, response.body.split("\n")[4].split[1]
+    received = response.body.split[4]
+    assert_equal expected, received
   end
 
   def test_diagnostic_host
     response = Hurley.get("http://127.0.0.1:9292")
     expected = "Hurley"
-    assert_equal expected, response.body.split("\n")[5].split[1]
-  end
-
-  def test_diagnostic_port
-    skip
-    response = Hurley.get("http://127.0.0.1:9292")
-    expected = "9292"
-    # binding.pry
-    assert_equal expected, response.body.split("\n")[6].split[1]
-  end
-
-  def test_diagnostic_origin
-    response = Hurley.get("http://127.0.0.1:9292")
-    expected = "Hurley"
-    assert_equal expected, response.body.split("\n")[7].split[1]
-  end
-
-  def test_diagnostic_accept
-    skip
-    response = Hurley.get("http://127.0.0.1:9292")
-    expected = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
-    assert_equal expected, response.body.split("\n")[8].split[1]
+    received = response.body.split[6]
+    assert_equal expected, received
   end
 
 end
