@@ -5,12 +5,13 @@ require 'time'
 require 'request_parse'
 
 class HTTP_Response
-  attr_reader :request_count, :path
+  attr_reader :request_count, :path, :value
 
-  def initialize(path, request_count, hello_count)
+  def initialize(path, request_count, hello_count, value)
     @request_count = request_count
     @path = path
     @hello_count = hello_count
+    @value = value
   end
 
   def respond(client, request_lines)
@@ -38,8 +39,19 @@ class HTTP_Response
       now.strftime("%I:%M%p on %A, %B %d, %Y")
     elsif path == "/shutdown"
       "Total Requests: #{request_count}"
+    elsif path[0..11] == "/word_search"
+      word_search(value)
     else
       "\n"
+    end
+  end
+
+  def word_search(word)
+    dictionary = File.read("/usr/share/dict/words").split("\n")
+    if dictionary.include?(word.downcase)
+      "#{word.upcase} is a known word"
+    else
+      "#{word.upcase} is not a known word"
     end
   end
 
