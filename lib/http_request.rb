@@ -4,10 +4,11 @@ require 'pry'
 require 'http_response'
 
 class HTTP_Request
-  attr_accessor :request_count
+  attr_accessor :request_count, :hello_count
 
   def initialize
     @request_count = 0
+    @hello_count = 0
   end
 
   def request(server)
@@ -16,9 +17,12 @@ class HTTP_Request
       request_lines = req_line_processor(client)
       path = request_lines[0].split[1]
       @request_count += 1
-      response = HTTP_Response.new(path, request_count)
+      response = HTTP_Response.new(path, request_count, hello_count)
       response.respond(client, request_lines)
       break if path == "/shutdown"
+      if path == "/hello"
+        @hello_count += 1
+      end
       client.close
     end
   end

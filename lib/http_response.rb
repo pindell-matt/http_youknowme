@@ -2,22 +2,23 @@ $LOAD_PATH.unshift(File.expand_path(".", __dir__))
 require 'socket'
 require 'pry'
 require 'time'
-require 'parser'
+# require 'parser'
 require 'request_parse'
 
 class HTTP_Response
-  attr_reader :request_count, :parser
-  attr_accessor :hello_count
+  attr_reader :request_count, :path, :collected_paths
 
-  def initialize(path, request_count)
+  def initialize(path, request_count, hello_count)
     @request_count = request_count
-    @hello_count = 0
-    @parser = Parser.new(path, request_count, hello_count).path_eval.to_s
+    @path = path
+    @hello_count = hello_count
+    # @parser = Parser.new(path, request_count, hello_count).path_eval.to_s
   end
 
   def respond(client, request_lines)
     diagnostics = Request_Parse.new(request_lines)
-    response = "<pre>" + parser + "\n\n" + diagnostics.parse_diagnostic + "<pre>"
+    response_body = path_eval
+    response = "<pre>" + response_body + "\n\n" + diagnostics.parse_diagnostic + "<pre>"
     output = "<html><head></head><body>#{response}</body></html>"
     client.puts headers(output)
     client.puts output
@@ -30,4 +31,18 @@ class HTTP_Response
       "content-type: text/html; charset=iso-8859-1",
       "content-length: #{output.length}\r\n\r\n"].join("\r\n")
   end
+
+  def path_eval
+    if path == "/hello"
+      "Hello, World! (#{@hello_count})"
+    elsif path == "/datetime"
+      now = Time.new
+      now.strftime("%I:%M%p on %A, %B %d, %Y")
+    elsif path == "/shutdown"
+      "Total Requests: #{request_count}"
+    else
+      "No Path!"
+    end
+  end
+
 end
