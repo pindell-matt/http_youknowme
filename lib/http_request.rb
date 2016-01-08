@@ -16,10 +16,7 @@ class HTTP_Request
       client = server.accept
       request_lines = req_line_processor(client)
       path = request_lines[0].split[1]
-
       value = request_lines[0].split[1].split("?")[1].split("=")[1] if !request_lines[0].split[1].split("?")[1].nil?
-      puts value
-
       @request_count += 1
       response = HTTP_Response.new(path, request_count, hello_count, value)
       response.respond(client, request_lines)

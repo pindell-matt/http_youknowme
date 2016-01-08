@@ -18,7 +18,7 @@ class HTTP_Response_Test < Minitest::Test
    client = Hurley::Client.new("http://127.0.0.1:9292")
    response = client.get("/hello")
    expected = "Path: /hello Protocol: HTTP/1.1 Host: Hurley Port:  Origin: Hurley"
-   received = response.body[50..-33].gsub("\n", "").gsub("\r", " ")
+   received = response.body[49..-33].gsub("\n", "").gsub("\r", " ")
    assert_equal expected, received
   end
 
@@ -72,6 +72,20 @@ class HTTP_Response_Test < Minitest::Test
     expected = "Hurley"
     received = response.body.split[6]
     assert_equal expected, received
+  end
+
+  def test_real_word
+    client = Hurley::Client.new("http://127.0.0.1:9292")
+    response = client.get("/word_search?word=happy")
+    expected = "HAPPY is a known word"
+    assert response.body.include?(expected)
+  end
+
+  def test_not_real_word
+    client = Hurley::Client.new("http://127.0.0.1:9292")
+    response = client.get("/word_search?word=zomblecom")
+    expected = "ZOMBLECOM is not a known word"
+    assert response.body.include?(expected)
   end
 
 end
