@@ -13,7 +13,9 @@ class Parser
   # move back to response (or it's own) and initialize hello_count there
   def path_eval
     if path == "/hello"
-      "Hello, World! (#{request_count})"
+      response = "Hello, World! (#{@hello_count})"
+      # @hello_count += 1
+      response
     elsif path == "/datetime"
       now = Time.new
       now.strftime("%I:%M%p on %A, %B %d, %Y")
