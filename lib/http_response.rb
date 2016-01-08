@@ -7,10 +7,12 @@ require 'request_parse'
 
 class HTTP_Response
   attr_reader :request_count, :parser
+  attr_accessor :hello_count
 
   def initialize(path, request_count)
     @request_count = request_count
-    @parser = Parser.new(path, request_count).path_eval.to_s
+    @hello_count = 0
+    @parser = Parser.new(path, request_count, hello_count).path_eval.to_s
   end
 
   def respond(client, request_lines)
